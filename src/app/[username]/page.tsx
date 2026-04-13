@@ -86,13 +86,13 @@ function PortfolioContent({
       {portfolio?.is_published ? <ViewTracker username={user?.username ?? ""} /> : null}
       <div className="container relative z-10 space-y-8 max-w-6xl mx-auto">
         {showUnpublishedBanner ? (
-          <div className="rounded-2xl border border-yellow-500/40 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-200">
+          <div className="rounded-2xl border border-yellow-500/40 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-700 dark:text-yellow-200">
             This portfolio is not published. You are viewing private preview mode.
           </div>
         ) : null}
 
         <MotionFade delay={0.1}>
-          <header className="glass rounded-3xl border border-white/5 bg-surface/60 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.5)] md:p-12">
+          <header className="glass rounded-3xl border border-border bg-surface/60 p-8 shadow-lg dark:shadow-[0_8px_40px_rgba(0,0,0,0.5)] md:p-12">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="font-heading text-xs uppercase tracking-[0.2em] text-primary font-bold">
@@ -105,9 +105,9 @@ function PortfolioContent({
                   {user?.bio || "A builder crafting reliable and polished web products."}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  <Badge variant="secondary" className="bg-white/5 hover:bg-white/10 transition-colors">@{user?.username}</Badge>
+                  <Badge variant="secondary" className="bg-foreground/5 hover:bg-foreground/10 transition-colors">@{user?.username}</Badge>
                   {user?.location ? (
-                    <Badge variant="secondary" className="bg-white/5 hover:bg-white/10 transition-colors">{user.location}</Badge>
+                    <Badge variant="secondary" className="bg-foreground/5 hover:bg-foreground/10 transition-colors">{user.location}</Badge>
                   ) : null}
                   {portfolio?.is_published ? (
                     <Badge variant="secondary" className="bg-primary/20 text-primary border border-primary/20">{views} views</Badge>
@@ -132,7 +132,7 @@ function PortfolioContent({
                   </p>
                 ) : (
                   skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="bg-white/5 hover:bg-white/10 transition-colors">
+                    <Badge key={skill} variant="secondary" className="bg-foreground/5 hover:bg-foreground/10 transition-colors">
                       {skill}
                     </Badge>
                   ))
@@ -170,7 +170,7 @@ function PortfolioContent({
                   projects.map((project) => (
                     <article
                       key={project.id}
-                      className="group rounded-2xl border border-white/5 bg-surface/50 p-5 transition-all duration-300 hover:scale-[1.02] hover:border-white/10 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
+                      className="group rounded-2xl border border-border bg-surface/50 p-5 transition-all duration-300 hover:scale-[1.02] hover:border-foreground/10 hover:shadow-lg dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)]"
                     >
                       <h3 className="font-heading text-lg font-bold tracking-tight group-hover:text-primary transition-colors">{project.title}</h3>
                       <p className="mt-2 text-sm text-muted leading-relaxed">
@@ -180,7 +180,7 @@ function PortfolioContent({
                         {((project.tech_stack ?? []) as string[])
                           .filter((tech) => tech && tech.trim().length > 0)
                           .map((tech: string) => (
-                            <Badge key={tech} variant="outline" className="border-white/10 bg-white/5 text-xs">
+                            <Badge key={tech} variant="outline" className="border-border bg-foreground/5 text-xs">
                               {tech}
                             </Badge>
                           ))}

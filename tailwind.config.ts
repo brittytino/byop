@@ -39,7 +39,7 @@ const config: Config = {
         "2xl": "1.25rem"
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(255,46,46,0.12), 0 8px 30px rgba(255,46,46,0.20)"
+        glow: "0 0 0 1px hsl(var(--primary) / 0.12), 0 8px 30px hsl(var(--primary) / 0.25)"
       },
       keyframes: {
         "fade-up": {
