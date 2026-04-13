@@ -13,10 +13,11 @@
     "db:check": "node scripts/db-check.mjs"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@neondatabase/serverless": "^0.10.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.3.19",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.453.0",
     "next": "^14.2.15",
     "next-auth": "^4.24.8",
@@ -24,6 +25,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^2.5.3",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {

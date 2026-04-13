@@ -17,9 +17,24 @@ const themes = [
     description: "Black canvas, red glow, glass surfaces"
   },
   {
-    id: "snow-crimson",
-    name: "Snow Crimson",
-    description: "Bright mode with restrained red accents"
+    id: "ocean-breeze",
+    name: "Ocean Breeze",
+    description: "Deep blue depths with bright cyan highlights"
+  },
+  {
+    id: "forest-whisper",
+    name: "Forest Whisper",
+    description: "Subtle dark greens with lime neon accents"
+  },
+  {
+    id: "sunset-glow",
+    name: "Sunset Glow",
+    description: "Royal violet backing with a warm orange aura"
+  },
+  {
+    id: "monochrome-exec",
+    name: "Monochrome Exec",
+    description: "Absolute black and white for pure minimalism"
   }
 ];
 

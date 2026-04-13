@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Sora } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
 
 import "@/app/globals.css";
 import { AppProviders } from "@/components/providers/app-providers";
 
-const sora = Sora({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight" });
 
 export const metadata: Metadata = {
   title: "DevfolioX",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={sora.className}>
+      <body className={`${inter.variable} ${interTight.variable} font-sans`}>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

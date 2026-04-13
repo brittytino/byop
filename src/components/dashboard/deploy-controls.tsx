@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { Copy, Loader2, Rocket, XCircle } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
 
@@ -124,18 +123,15 @@ export function DeployControls({
 
       <div className="rounded-2xl border border-border bg-surface/80 p-4">
         <p className="text-sm text-muted">Status</p>
-        <motion.div
-          className={`mt-2 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${
+        <div
+          className={`mt-2 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium transition-transform duration-200 ${
             published
-              ? "bg-green-500/15 text-green-300"
-              : "bg-zinc-500/15 text-zinc-300"
+              ? "scale-105 bg-green-500/15 text-green-300"
+              : "scale-100 bg-zinc-500/15 text-zinc-300"
           }`}
-          initial={false}
-          animate={{ scale: published ? 1.02 : 1 }}
-          transition={{ duration: 0.2 }}
         >
           {published ? "Published" : "Draft"}
-        </motion.div>
+        </div>
         <p className="mt-2 text-xs text-muted">Last updated: {formattedUpdatedAt}</p>
       </div>
 
@@ -166,43 +162,31 @@ export function DeployControls({
         </Button>
       </div>
 
-      <AnimatePresence>
-        {confirmPublishOpen ? (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="glass w-full max-w-md rounded-2xl border border-border p-6 shadow-glow"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-            >
-              <h3 className="text-lg font-semibold">Publish portfolio?</h3>
-              <p className="mt-2 text-sm text-muted">
-                Your portfolio will become publicly accessible at {liveUrl}.
-              </p>
-              <div className="mt-5 flex justify-end gap-2">
-                <Button
-                  variant="ghost"
-                  onClick={() => setConfirmPublishOpen(false)}
-                  disabled={pending}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={onPublishConfirmed} disabled={pending}>
-                  {pending && activeAction === "publish" ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : null}
-                  Confirm Publish
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {confirmPublishOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 animate-in fade-in duration-200">
+          <div className="glass w-full max-w-md rounded-2xl border border-border p-6 shadow-glow animate-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-semibold">Publish portfolio?</h3>
+            <p className="mt-2 text-sm text-muted">
+              Your portfolio will become publicly accessible at {liveUrl}.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button
+                variant="ghost"
+                onClick={() => setConfirmPublishOpen(false)}
+                disabled={pending}
+              >
+                Cancel
+              </Button>
+              <Button onClick={onPublishConfirmed} disabled={pending}>
+                {pending && activeAction === "publish" ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : null}
+                Confirm Publish
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

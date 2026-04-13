@@ -19,8 +19,8 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="glass sticky top-6 h-fit rounded-2xl border border-border p-4 shadow-glow">
-      <p className="mb-4 px-3 text-sm font-semibold text-muted">Workspace</p>
+    <aside className="glass sticky top-8 h-fit rounded-3xl border border-white/5 bg-surface/50 p-4 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <p className="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-muted">Workspace</p>
       <nav className="space-y-1">
         {links.map((link) => {
           const isActive = pathname === link.href;
@@ -30,11 +30,21 @@ export function DashboardSidebar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2 text-sm text-muted transition hover:bg-surface hover:text-foreground",
-                isActive && "bg-primary/10 text-primary"
+                "group relative flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all",
+                isActive
+                  ? "bg-white/5 text-foreground shadow-sm"
+                  : "text-muted hover:bg-white/5 hover:text-foreground"
               )}
             >
-              <Icon className="h-4 w-4" />
+              {isActive && (
+                <div className="absolute left-0 top-1/2 h-1/2 w-[3px] -translate-y-1/2 rounded-r-full bg-primary shadow-[0_0_12px_rgba(255,46,46,0.8)]" />
+              )}
+              <Icon
+                className={cn(
+                  "h-4 w-4 transition-colors",
+                  isActive ? "text-primary" : "text-muted group-hover:text-foreground"
+                )}
+              />
               {link.label}
             </Link>
           );

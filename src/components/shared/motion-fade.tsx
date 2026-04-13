@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ReactNode, useRef } from "react";
 
 type MotionFadeProps = {
   children: ReactNode;
@@ -10,14 +11,20 @@ type MotionFadeProps = {
 };
 
 export function MotionFade({ children, delay = 0, className }: MotionFadeProps) {
+  const container = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!container.current) return;
+    gsap.fromTo(
+      container.current,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.45, delay, ease: "power2.out" }
+    );
+  }, { scope: container });
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay, ease: "easeOut" }}
-    >
+    <div ref={container} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
