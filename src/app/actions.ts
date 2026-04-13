@@ -46,6 +46,7 @@ export async function updateProfileAction(formData: FormData): Promise<ActionRes
 
   const parsed = profileSchema.safeParse({
     name: formData.get("name"),
+    email: String(formData.get("email") || "").trim(),
     bio: formData.get("bio") || "",
     location: formData.get("location") || "",
     skills: String(formData.get("skills") || "")
@@ -70,6 +71,7 @@ export async function updateProfileAction(formData: FormData): Promise<ActionRes
   await sql`
     update users
     set name = ${parsed.data.name},
+      email = ${parsed.data.email || null},
         bio = ${parsed.data.bio || null},
         location = ${parsed.data.location || null},
         skills = ${JSON.stringify(parsed.data.skills)}::jsonb,
@@ -207,6 +209,38 @@ export async function importGitHubRepoAction(repoId: number): Promise<ActionResu
 
 export async function publishPortfolioAction(): Promise<ActionResult> {
   const { user } = await requireAuthedUser();
+
+  const projects = await getProjectsByUserId(user.id);
+  const skills = (user.skills as string[]) ?? [];
+  const links = (user.links as Record<string, string>) ?? {};
+  const requirements: string[] = [];
+
+  if (!user.bio || user.bio.trim().length < 40) {
+    requirements.push("Add a bio with at least 40 characters");
+  }
+
+  if (!user.email) {
+    requirements.push("Add a public email to receive contact messages");
+  }
+
+  if (skills.length < 3) {
+    requirements.push("Add at least 3 skills");
+  }
+
+  if (projects.length < 1) {
+    requirements.push("Add at least 1 project");
+  }
+
+  if (!links.github && !links.linkedin && !links.website) {
+    requirements.push("Add at least one public profile link (GitHub, LinkedIn, or Website)");
+  }
+
+  if (requirements.length > 0) {
+    return {
+      ok: false,
+      message: `Complete required fields before publish: ${requirements.join("; ")}`
+    };
+  }
 
   await sql`
     update portfolios

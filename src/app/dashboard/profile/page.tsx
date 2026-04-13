@@ -39,6 +39,16 @@ export default async function ProfilePage() {
 
         <div className="grid gap-2 md:grid-cols-2">
           <div className="grid gap-2">
+            <Label htmlFor="email">Public Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              defaultValue={user.email ?? ""}
+              placeholder="name@domain.com"
+            />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="location">Location</Label>
             <Input id="location" name="location" defaultValue={user.location ?? ""} />
           </div>

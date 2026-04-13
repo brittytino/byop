@@ -135,6 +135,17 @@ export function DeployControls({
         <p className="mt-2 text-xs text-muted">Last updated: {formattedUpdatedAt}</p>
       </div>
 
+      <div className="rounded-2xl border border-border bg-surface/80 p-4">
+        <p className="text-sm text-muted">Publish Requirements</p>
+        <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted">
+          <li>Bio with at least 40 characters</li>
+          <li>Public email in profile</li>
+          <li>At least 3 skills</li>
+          <li>At least 1 project</li>
+          <li>At least one public profile link (GitHub, LinkedIn, or Website)</li>
+        </ul>
+      </div>
+
       <div className="flex flex-wrap gap-3">
         <Button
           onClick={() => setConfirmPublishOpen(true)}

@@ -17,7 +17,7 @@ const themes = [
     id: "midnight-inferno",
     name: "Midnight Inferno",
     description: "Black canvas, amber glow, glass surfaces",
-    template: "Cinematic (GSAP)",
+    template: "Cinematic Clean",
     preview: {
       darkBackground: "#060606",
       darkSurface: "#121212",
@@ -30,7 +30,7 @@ const themes = [
     id: "ocean-breeze",
     name: "Ocean Breeze",
     description: "Deep blue depths with bright cyan highlights",
-    template: "Swipe Layout",
+    template: "Swipe Deck",
     preview: {
       darkBackground: "#08142c",
       darkSurface: "#10203c",

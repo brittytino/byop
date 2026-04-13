@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { Mail, Send } from "lucide-react";
+import { Loader2, Mail, Send } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -9,41 +9,52 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 type ContactFormCardProps = {
-  recipientEmail?: string | null;
+  recipientUsername: string;
   recipientName: string;
 };
 
-export function ContactFormCard({ recipientEmail, recipientName }: ContactFormCardProps) {
+export function ContactFormCard({ recipientUsername, recipientName }: ContactFormCardProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!recipientEmail) {
-      toast.error("Email is not configured for this portfolio yet.");
-      return;
+    setSending(true);
+    try {
+      const response = await fetch(`/api/contact/${recipientUsername}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message
+        })
+      });
+
+      const data = (await response.json()) as { ok?: boolean; message?: string };
+
+      if (!response.ok || !data.ok) {
+        toast.error(data.message || "Failed to send message.");
+        return;
+      }
+
+      toast.success("Message sent successfully.");
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSending(false);
     }
-
-    const subject = `${name || "New contact"} reached out via BYOP portfolio`;
-    const body = [
-      `Hi ${recipientName},`,
-      "",
-      message || "I would like to connect with you.",
-      "",
-      `Sender Name: ${name || "Not provided"}`,
-      `Sender Email: ${email || "Not provided"}`
-    ].join("\n");
-
-    const mailtoUrl = `mailto:${encodeURIComponent(recipientEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    window.location.href = mailtoUrl;
-    toast.success("Opening your email app.");
-
-    setName("");
-    setEmail("");
-    setMessage("");
   }
 
   return (
@@ -70,6 +81,12 @@ export function ContactFormCard({ recipientEmail, recipientName }: ContactFormCa
           placeholder="Your email"
           required
         />
+        <Input
+          value={subject}
+          onChange={(event) => setSubject(event.target.value)}
+          placeholder="Subject"
+          required
+        />
         <Textarea
           value={message}
           onChange={(event) => setMessage(event.target.value)}
@@ -78,8 +95,8 @@ export function ContactFormCard({ recipientEmail, recipientName }: ContactFormCa
           required
         />
 
-        <Button type="submit" className="w-fit">
-          <Send className="mr-2 h-4 w-4" />
+        <Button type="submit" className="w-fit" disabled={sending}>
+          {sending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
           Send Message
         </Button>
       </form>

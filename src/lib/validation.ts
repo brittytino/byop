@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const profileSchema = z.object({
   name: z.string().min(2).max(80),
+  email: z.string().email().max(120).optional().or(z.literal("")),
   bio: z.string().max(300).optional(),
   location: z.string().max(80).optional(),
   skills: z.array(z.string().min(1).max(30)).max(24),
