@@ -16,7 +16,7 @@ export function DashboardTopbar({ username }: DashboardTopbarProps) {
   return (
     <header className="mb-10 flex w-full items-center justify-between rounded-3xl border border-border glass bg-surface/75 px-6 py-4 shadow-[0_4px_20px_rgba(2,6,23,0.10)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
       <div className="flex items-center gap-4">
-        <h1 className="font-heading text-xl font-bold tracking-tight">Devfolio<span className="text-primary">X</span></h1>
+        <h1 className="font-heading text-xl font-bold tracking-tight">BYOP<span className="text-primary">.</span></h1>
       </div>
       <div className="flex items-center gap-3">
         <ThemeToggle />

@@ -17,6 +17,8 @@ import {
   getUserByUsername
 } from "@/lib/repositories";
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://portfolio.tinobritty.me";
+
 type PortfolioBundle = {
   user: Awaited<ReturnType<typeof getUserByUsername>>;
   portfolio: Awaited<ReturnType<typeof getPortfolioByUserId>>;
@@ -72,6 +74,16 @@ function PortfolioContent({
   const { user, portfolio, projects, views } = data;
   const links = (user?.links as Record<string, string>) ?? {};
   const skills = (user?.skills as string[]) ?? [];
+  const profileUrl = `${siteUrl}/${user?.username ?? ""}`;
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: user?.name ?? user?.username,
+    url: profileUrl,
+    description: user?.bio ?? "Developer portfolio",
+    image: user?.avatar_url,
+    sameAs: Object.values(links).filter(Boolean)
+  };
 
   const themeClass =
     portfolio?.theme && portfolio.theme !== "midnight-inferno"
@@ -80,6 +92,10 @@ function PortfolioContent({
 
   return (
     <main className={cn("noise min-h-screen pb-20 pt-10 overflow-hidden", themeClass)}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       {/* Subtle background glow */}
       <div className="absolute top-0 right-0 -z-10 h-[30rem] w-[30rem] translate-x-1/3 -translate-y-1/3 rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
 
@@ -96,7 +112,7 @@ function PortfolioContent({
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="font-heading text-xs uppercase tracking-[0.2em] text-primary font-bold">
-                  DevfolioX Portfolio
+                  BYOP Portfolio
                 </p>
                 <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight md:text-6xl text-foreground">
                   {user?.name}
@@ -217,22 +233,60 @@ export async function generateMetadata({
 }: {
   params: { username: string };
 }): Promise<Metadata> {
-  const data = await getCachedPublishedPortfolio(params.username);
+  const normalized = params.username.toLowerCase();
+  const data = await getCachedPublishedPortfolio(normalized);
 
   if (!data) {
+    const user = await getUserByUsername(normalized);
+    const portfolio = user ? await getPortfolioByUserId(user.id) : null;
+
+    if (user && portfolio && !portfolio.is_published) {
+      return {
+        title: `${user.name} | Portfolio Preview`,
+        description: `Private preview for ${user.name}'s developer portfolio.`,
+        robots: {
+          index: false,
+          follow: false
+        }
+      };
+    }
+
     return {
       title: "Portfolio Not Found",
-      description: "This portfolio is private or does not exist."
+      description: "This portfolio is private or does not exist.",
+      robots: {
+        index: false,
+        follow: false
+      }
     };
   }
 
+  const canonicalPath = `/${data.user?.username}`;
+  const canonicalUrl = `${siteUrl}${canonicalPath}`;
+  const title = `${data.user?.name} | BYOP Portfolio`;
+  const description =
+    data.user?.bio ?? `Developer portfolio of ${data.user?.name} built with BYOP.`;
+
   return {
-    title: `${data.user?.name} | Portfolio`,
-    description: data.user?.bio ?? `Developer portfolio of ${data.user?.name}`,
+    title,
+    description,
+    keywords: [
+      `${data.user?.name} portfolio`,
+      `${data.user?.username} developer`,
+      "developer portfolio",
+      "published portfolio"
+    ],
+    alternates: {
+      canonical: canonicalPath
+    },
+    robots: {
+      index: true,
+      follow: true
+    },
     openGraph: {
-      title: `${data.user?.name} | Portfolio`,
-      description: data.user?.bio ?? `Developer portfolio of ${data.user?.name}`,
-      url: `https://portfolio.tinobritty.me/${data.user?.username}`,
+      title,
+      description,
+      url: canonicalUrl,
       type: "profile",
       images: data.user?.avatar_url
         ? [
@@ -241,6 +295,12 @@ export async function generateMetadata({
             }
           ]
         : []
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: data.user?.avatar_url ? [data.user.avatar_url] : []
     }
   };
 }
