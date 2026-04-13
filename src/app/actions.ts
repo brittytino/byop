@@ -56,7 +56,8 @@ export async function updateProfileAction(formData: FormData): Promise<ActionRes
     links: {
       github: String(formData.get("github") || "").trim(),
       linkedin: String(formData.get("linkedin") || "").trim(),
-      website: String(formData.get("website") || "").trim()
+      website: String(formData.get("website") || "").trim(),
+      resume: String(formData.get("resume") || "").trim()
     }
   });
 

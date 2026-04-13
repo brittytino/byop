@@ -59,7 +59,7 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        <div className="grid gap-2 md:grid-cols-3">
+        <div className="grid gap-2 md:grid-cols-2">
           <div className="grid gap-2">
             <Label htmlFor="github">GitHub URL</Label>
             <Input
@@ -69,12 +69,16 @@ export default async function ProfilePage() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="linkedin">LinkedIn URL</Label>
+            <Label htmlFor="linkedin">LinkedIn Profile</Label>
             <Input id="linkedin" name="linkedin" defaultValue={links.linkedin ?? ""} />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="website">Website URL</Label>
             <Input id="website" name="website" defaultValue={links.website ?? ""} />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="resume">Resume Link (Google Drive, etc.)</Label>
+            <Input id="resume" name="resume" defaultValue={links.resume ?? ""} placeholder="https://drive.google.com/..." />
           </div>
         </div>
 
