@@ -17,6 +17,7 @@ const themes = [
     id: "midnight-inferno",
     name: "Midnight Inferno",
     description: "Black canvas, amber glow, glass surfaces",
+    template: "Cinematic (GSAP)",
     preview: {
       darkBackground: "#060606",
       darkSurface: "#121212",
@@ -29,6 +30,7 @@ const themes = [
     id: "ocean-breeze",
     name: "Ocean Breeze",
     description: "Deep blue depths with bright cyan highlights",
+    template: "Swipe Layout",
     preview: {
       darkBackground: "#08142c",
       darkSurface: "#10203c",
@@ -41,6 +43,7 @@ const themes = [
     id: "forest-whisper",
     name: "Forest Whisper",
     description: "Subtle dark greens with fresh lime accents",
+    template: "Editorial Grid",
     preview: {
       darkBackground: "#061b11",
       darkSurface: "#0d2a1d",
@@ -53,6 +56,7 @@ const themes = [
     id: "sunset-glow",
     name: "Sunset Glow",
     description: "Royal violet backing with a warm orange aura",
+    template: "Executive Sidebar",
     preview: {
       darkBackground: "#1f1028",
       darkSurface: "#2c1635",
@@ -65,6 +69,7 @@ const themes = [
     id: "monochrome-exec",
     name: "Monochrome Exec",
     description: "Absolute black and white for pure minimalism",
+    template: "Monolith Timeline",
     preview: {
       darkBackground: "#050505",
       darkSurface: "#101010",
@@ -77,6 +82,7 @@ const themes = [
     id: "rose-luxe",
     name: "Rose Luxe",
     description: "Burgundy depth with rose-gold luxury accents",
+    template: "Atelier Signature",
     preview: {
       darkBackground: "#1a0c12",
       darkSurface: "#2a121d",
@@ -104,6 +110,9 @@ export function ThemePicker({ activeTheme }: ThemePickerProps) {
           >
             <p className="text-lg font-semibold">{theme.name}</p>
             <p className="mt-1 text-sm text-muted">{theme.description}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-primary/80">
+              Template: {theme.template}
+            </p>
 
             <div className="mt-4 grid gap-2 sm:grid-cols-2">
               <div
