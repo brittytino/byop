@@ -32,7 +32,11 @@ export default async function DashboardLayout({
 
   return (
     <div className="container py-8">
-      <DashboardTopbar username={user.username} />
+      <DashboardTopbar
+        username={user.username}
+        displayName={user.name}
+        avatarUrl={user.avatar_url}
+      />
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
         <DashboardSidebar />
         <section>{children}</section>

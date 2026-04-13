@@ -2,10 +2,13 @@
 
 import { Check, Loader2, Star } from "lucide-react";
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import { importGitHubRepoAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Pagination } from "@/components/ui/pagination";
 
 type Repo = {
   id: number;
@@ -21,12 +24,8 @@ type RepoImporterProps = {
   importedGithubUrls: string[];
 };
 
-type ToastState = {
-  tone: "success" | "error";
-  message: string;
-};
-
 const CLIENT_REPO_CACHE_TTL_MS = 45_000;
+const REPOS_PER_PAGE = 10;
 
 let cachedRepos: Repo[] | null = null;
 let cachedReposAt = 0;
@@ -36,10 +35,11 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
   const [importedSet, setImportedSet] = useState<Set<string>>(
     () => new Set(importedGithubUrls)
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [activeRepoId, setActiveRepoId] = useState<number | null>(null);
-  const [toast, setToast] = useState<ToastState | null>(null);
   const [pending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -76,35 +76,43 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
   }, []);
 
   useEffect(() => {
-    if (!toast) {
-      return;
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  const importedCount = useMemo(
+    () => repos.filter((repo) => importedSet.has(repo.html_url)).length,
+    [repos, importedSet]
+  );
+
+  const filteredRepos = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    if (!normalizedQuery) {
+      return repos;
     }
 
-    const timer = setTimeout(() => {
-      setToast(null);
-    }, 2200);
+    return repos.filter((repo) => {
+      const haystack = [repo.name, repo.description ?? "", repo.language ?? ""]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(normalizedQuery);
+    });
+  }, [repos, searchQuery]);
 
-    return () => clearTimeout(timer);
-  }, [toast]);
+  const totalPages = Math.max(1, Math.ceil(filteredRepos.length / REPOS_PER_PAGE));
 
-  const importedCount = useMemo(() => {
-    return repos.filter((repo) => importedSet.has(repo.html_url)).length;
-  }, [repos, importedSet]);
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  const paginatedRepos = useMemo(() => {
+    const start = (currentPage - 1) * REPOS_PER_PAGE;
+    return filteredRepos.slice(start, start + REPOS_PER_PAGE);
+  }, [currentPage, filteredRepos]);
 
   return (
     <Card className="space-y-4">
-      {toast ? (
-        <div
-          className={`fixed right-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-glow ${
-            toast.tone === "success"
-              ? "border-primary/70 bg-surface text-foreground"
-              : "border-red-600/60 bg-surface text-foreground"
-          }`}
-        >
-          {toast.message}
-        </div>
-      ) : null}
-
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold">Import from GitHub</h3>
@@ -112,7 +120,21 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
             Preview repositories and import them into your portfolio projects.
           </p>
         </div>
-        <p className="text-sm text-muted">Imported: {importedCount}</p>
+        <p className="text-sm text-muted">
+          Imported: {importedCount} / {repos.length}
+        </p>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+        <Input
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+          placeholder="Search repos by name, description, or language"
+          aria-label="Search GitHub repositories"
+        />
+        <p className="text-sm text-muted">
+          Page {currentPage} of {totalPages}
+        </p>
       </div>
 
       {loadError ? <p className="text-sm text-muted">{loadError}</p> : null}
@@ -139,7 +161,13 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
             </div>
           ) : null}
 
-          {repos.map((repo) => {
+          {repos.length > 0 && filteredRepos.length === 0 ? (
+            <div className="rounded-2xl border border-border bg-surface/70 p-5 text-sm text-muted md:col-span-2">
+              No repositories match your search.
+            </div>
+          ) : null}
+
+          {paginatedRepos.map((repo) => {
             const isImported = importedSet.has(repo.html_url);
             const isActive = pending && activeRepoId === repo.id;
 
@@ -191,9 +219,9 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
                             next.add(repo.html_url);
                             return next;
                           });
-                          setToast({ tone: "success", message: result.message });
+                          toast.success(result.message);
                         } else {
-                          setToast({ tone: "error", message: result.message });
+                          toast.error(result.message);
                         }
 
                         setActiveRepoId(null);
@@ -209,6 +237,15 @@ export function RepoImporter({ importedGithubUrls }: RepoImporterProps) {
           })}
         </div>
       )}
+
+      {filteredRepos.length > REPOS_PER_PAGE ? (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          className="pt-2"
+        />
+      ) : null}
     </Card>
   );
 }

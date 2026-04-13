@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 type AppProvidersProps = {
   children: ReactNode;
@@ -11,7 +12,16 @@ type AppProvidersProps = {
 export function AppProviders({ children }: AppProvidersProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <SessionProvider>{children}</SessionProvider>
+      <SessionProvider>
+        {children}
+        <Toaster
+          position="top-right"
+          richColors
+          toastOptions={{
+            className: "border border-border bg-surface text-foreground"
+          }}
+        />
+      </SessionProvider>
     </ThemeProvider>
   );
 }
