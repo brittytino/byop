@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 100%;
+  --surface: 0 0% 7%;
+  --muted: 240 5% 65%;
+  --border: 0 0% 15%;
+  --input: 0 0% 12%;
+  --ring: 0 92% 58%;
+  --primary: 0 100% 59%;
+  --primary-foreground: 0 0% 100%;
+}
+
+.light {
+  --background: 0 0% 98%;
+  --foreground: 0 0% 5%;
+  --surface: 0 0% 100%;
+  --muted: 240 4% 45%;
+  --border: 0 0% 90%;
+  --input: 0 0% 94%;
+  --ring: 0 92% 50%;
+  --primary: 0 95% 52%;
+  --primary-foreground: 0 0% 100%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 46, 46, 0.18), transparent 30%),
+    radial-gradient(circle at 88% 80%, rgba(255, 46, 46, 0.08), transparent 26%);
+}
+
+.glass {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.02)
+  );
+  backdrop-filter: blur(18px);
+}
+
+.noise {
+  position: relative;
+}
+
+.noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+}
