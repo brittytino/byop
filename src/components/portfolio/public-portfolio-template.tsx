@@ -506,13 +506,13 @@ function Footer({
 
 function CinematicTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   return (
-    <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-4 pb-16 pt-8 lg:space-y-20">
-      <section className="glass rounded-3xl border border-border bg-surface/75 p-8 md:p-12 lg:p-16">
-        <p className="inline-flex items-center rounded-full border border-border bg-foreground/5 px-3 py-1 text-xs uppercase tracking-[0.2em] text-primary">
+    <div className="container relative z-10 mx-auto flex max-w-4xl flex-col items-center space-y-16 px-4 pb-24 pt-12 text-center lg:space-y-24 [&_h2]:text-center [&_h3]:text-center [&_p]:text-center [&_section]:w-full [&_div.flex-wrap]:justify-center [&_.glass]:bg-surface/5 [&_.glass]:backdrop-blur-2xl [&_.glass]:border-white/10 dark:[&_.glass]:border-white/5">
+      <section className="glass w-full rounded-full border border-border px-8 py-16 md:py-24 lg:py-32">
+        <p className="mx-auto inline-flex items-center rounded-full border border-white/20 bg-foreground/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-primary backdrop-blur-md">
           Cinematic Portfolio
         </p>
-        <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">{user.name}</h1>
-        {user.bio ? <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted md:text-xl lg:text-2xl">{user.bio}</p> : null}
+        <h1 className="mt-8 font-heading text-5xl font-extrabold tracking-tighter md:text-7xl lg:text-8xl">{user.name}</h1>
+        {user.bio ? <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted md:text-2xl">{user.bio}</p> : null}
       </section>
 
       <ProjectsGrid projects={projects} />
@@ -526,64 +526,55 @@ function CinematicTemplate({ user, projects, skills, links, email, resumeUrl }: 
 }
 
 function SwipeTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
-  const sections = [
-    { id: "projects", content: <ProjectsGrid projects={projects} /> },
-    { id: "skills", content: <SkillsSection skills={skills} /> },
-    { id: "about", content: <AboutSection user={user} /> },
-    { id: "resume", content: <ResumeSection resumeUrl={resumeUrl} /> },
-    { id: "contact", content: <ContactSection links={links} email={email} name={user.name} username={user.username} /> }
-  ].filter((item) => item.content !== null);
-
   return (
-    <div className="container relative z-10 mx-auto max-w-6xl px-4 pb-16 pt-8">
-      <section className="glass rounded-3xl border border-border bg-surface/75 p-6 md:p-10 lg:p-12 z-20 relative">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-primary">Swipe Deck</p>
-            <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight md:text-5xl lg:text-7xl">{user.name}</h1>
-            {user.bio ? <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted md:text-xl">{user.bio}</p> : null}
-          </div>
-          <span className="inline-flex rounded-full border border-border bg-foreground/5 px-3 py-1.5 text-xs text-muted">
-            Swipe on mobile, structured grid on desktop
-          </span>
-        </div>
+    <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-4 pb-16 pt-8 lg:space-y-16">
+      <section className="glass rounded-[2rem] border border-border/80 bg-surface/70 p-8 text-center md:p-12 lg:p-20 shadow-sm z-20 relative flex flex-col items-center">
+        <p className="inline-flex rounded-full border border-border/50 bg-background/50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.25em] text-primary shadow-sm">
+          Bento Portfolio
+        </p>
+        <h1 className="mt-8 font-heading text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">{user.name}</h1>
+        {user.bio ? <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted md:text-xl lg:text-2xl">{user.bio}</p> : null}
       </section>
 
-      <section className="mt-8 lg:mt-12 z-20 relative">
-        <div className="flex snap-x snap-mandatory items-stretch gap-6 overflow-x-auto pb-4 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-2 xl:overflow-visible xl:pb-0 xl:pr-0 2xl:grid-cols-3">
-          {sections.map((section) => (
-            <article
-              key={section.id}
-              className="min-w-[min(90vw,30rem)] snap-start rounded-3xl border border-border bg-surface/70 p-5 shadow-[0_12px_30px_rgba(2,6,23,0.12)] ring-1 ring-border/40 sm:min-w-[min(74vw,34rem)] xl:min-w-0"
-            >
-              {section.content}
-            </article>
-          ))}
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="md:col-span-2 space-y-8">
+          <ProjectsGrid projects={projects} />
         </div>
+        <div className="space-y-8 flex flex-col">
+          <AboutSection user={user} />
+          <SkillsSection skills={skills} />
+        </div>
+      </div>
+
+      <section className="grid gap-8 md:grid-cols-2">
+        <ResumeSection resumeUrl={resumeUrl} />
+        <RecommendationSection linkedin={links.linkedin} />
       </section>
+
+      <ContactSection links={links} email={email} name={user.name} username={user.username} />
     </div>
   );
 }
 
 function EditorialTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   return (
-    <div className="container relative z-10 mx-auto max-w-6xl space-y-8 lg:space-y-12 px-4 pb-16 pt-8">
-      <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Card className="glass p-8 md:p-12 lg:p-14 bg-surface/60 border-border/80">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary">Editorial Portfolio</p>
-          <h1 className="mt-5 font-heading text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">{user.name}</h1>
-          {user.bio ? <p className="mt-6 max-w-xl text-base leading-relaxed text-muted md:text-xl lg:text-2xl">{user.bio}</p> : null}
-        </Card>
+    <div className="container relative z-10 mx-auto max-w-6xl space-y-12 lg:space-y-16 px-4 pb-20 pt-10 [&_.font-heading]:font-serif [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_.glass]:bg-transparent [&_.glass]:border-none [&_.glass]:shadow-none [&_.glass]:px-0 [&_section]:border-t [&_section]:border-border/60 [&_section]:pt-12 [&_section>div]:bg-transparent [&_section>div]:border-none [&_section>div]:shadow-none [&_section>div]:px-0 [&_section>div]:py-4 [&_a.group]:border-none [&_a.group]:bg-transparent [&_a.group]:p-0">
+      <section className="grid gap-12 border-none pt-0 lg:grid-cols-[1.5fr_1fr]">
+        <div className="flex flex-col justify-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary/80">Editorial Digest</p>
+          <h1 className="mt-6 text-5xl font-bold leading-tight tracking-[0.02em] md:text-7xl lg:text-8xl">{user.name}</h1>
+          {user.bio ? <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-2xl font-light">{user.bio}</p> : null}
+        </div>
 
         {skills.length > 0 ? (
-          <Card className="glass p-8 md:p-10 bg-surface/60 flex flex-col justify-center border-border/80">
-            <h3 className="font-heading text-xl font-bold">Skill Highlights</h3>
-            <div className="mt-6 flex flex-wrap gap-2.5">
+          <div className="flex flex-col justify-center border-l-2 border-border/40 pl-8 lg:pl-12">
+            <h3 className="text-xl font-bold uppercase tracking-wider text-foreground/90">Skill Highlights</h3>
+            <div className="mt-8 flex flex-wrap gap-3">
               {skills.slice(0, 10).map((skill) => (
-                <TechPill key={skill} tech={skill} className="bg-background shadow-sm border-border/50 text-sm py-1.5" />
+                <TechPill key={skill} tech={skill} className="rounded-none border border-border/60 bg-transparent py-1.5 font-mono text-xs uppercase" />
               ))}
             </div>
-          </Card>
+          </div>
         ) : null}
       </section>
 
@@ -603,22 +594,22 @@ function EditorialTemplate({ user, projects, skills, links, email, resumeUrl }: 
 
 function ExecutiveTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   return (
-    <div className="container relative z-10 mx-auto grid max-w-6xl gap-8 px-4 pb-16 pt-8 lg:grid-cols-[320px_1fr] lg:gap-16">
+    <div className="container relative z-10 mx-auto grid max-w-6xl gap-10 px-4 pb-20 pt-10 lg:grid-cols-[300px_1fr] lg:gap-14 [&_.glass]:shadow-none [&_.glass]:rounded-sm [&_.glass]:border-foreground/10 [&_.glass]:bg-background/80 [&_.rounded-2xl]:rounded-md [&_.rounded-3xl]:rounded-md [&_.rounded-full]:rounded-sm [&_a.rounded-full]:rounded-md [&_div.rounded-2xl]:rounded-md [&_div.rounded-3xl]:rounded-md [&_div.rounded-full]:rounded-md [&_img.rounded-full]:rounded-md [&_svg.text-primary]:text-foreground [&_.text-primary]:text-foreground">
       <aside className="space-y-6 lg:sticky lg:top-28 lg:h-fit">
-        <Card className="glass border-border/60 bg-surface/50 p-6 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-border bg-surface/80 p-0.5 shadow-sm">
-              <Image src={user.avatar_url} alt={`${user.name} avatar`} width={64} height={64} className="h-full w-full rounded-full object-cover" />
+        <Card className="glass border-border/80 bg-surface/30 p-8 shadow-none">
+          <div className="flex flex-col gap-5">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border border-border/80 bg-surface">
+              <Image src={user.avatar_url} alt={`${user.name} avatar`} width={80} height={80} className="h-full w-full rounded-md object-cover grayscale" />
             </div>
-            <div className="overflow-hidden">
-              <p className="truncate font-heading text-xl font-bold tracking-tight">{user.name}</p>
-              <p className="truncate text-sm font-medium text-primary">@{user.username}</p>
+            <div>
+              <p className="font-heading text-xl font-bold tracking-tight">{user.name}</p>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wider text-muted-foreground">@{user.username}</p>
             </div>
           </div>
-          {user.bio ? <p className="mt-5 text-sm leading-relaxed text-muted">{user.bio}</p> : null}
+          {user.bio ? <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{user.bio}</p> : null}
         </Card>
 
-        <div className="rounded-xl bg-surface/30 p-1">
+        <div className="rounded-md border border-border/60 bg-surface/20 p-4">
           <SkillsSection skills={skills} />
         </div>
       </aside>
@@ -636,11 +627,11 @@ function ExecutiveTemplate({ user, projects, skills, links, email, resumeUrl }: 
 
 function MonolithTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   return (
-    <div className="container relative z-10 mx-auto max-w-5xl space-y-8 px-4 pb-16 pt-8">
-      <section className="glass rounded-3xl border border-border bg-surface/85 p-8 md:p-12 lg:p-16">
-        <p className="text-xs uppercase tracking-[0.22em] text-primary">Monolith Portfolio</p>
-        <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">{user.name}</h1>
-        {user.bio ? <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted md:text-xl lg:text-2xl">{user.bio}</p> : null}
+    <div className="container relative z-10 mx-auto max-w-5xl space-y-16 px-4 pb-24 pt-12 [&_.glass]:rounded-none [&_.rounded-2xl]:rounded-none [&_.rounded-3xl]:rounded-none [&_.rounded-full]:rounded-none [&_.glass]:border-2 [&_.glass]:border-foreground/80 [&_.glass]:bg-background [&_.glass]:shadow-[6px_6px_0_0_rgba(0,0,0,0.2)] dark:[&_.glass]:shadow-[6px_6px_0_0_rgba(255,255,255,0.15)] [&_h1]:uppercase [&_h2]:uppercase [&_h3]:uppercase [&_h1]:tracking-tighter [&_section]:border-none [&_section>div]:border-2 [&_section>div]:border-foreground/80 [&_section>div]:shadow-[4px_4px_0_0_rgba(0,0,0,0.2)] dark:[&_section>div]:shadow-[4px_4px_0_0_rgba(255,255,255,0.15)] [&_a.rounded-full]:rounded-none [&_div.rounded-2xl]:rounded-none [&_div.rounded-3xl]:rounded-none [&_div.rounded-full]:rounded-none">
+      <section className="glass border-2 bg-background p-12 md:p-16 lg:p-20">
+        <p className="inline-block bg-foreground px-3 py-1 text-xs font-bold uppercase tracking-widest text-background">Monolith</p>
+        <h1 className="mt-8 font-heading text-6xl font-black leading-none md:text-8xl lg:text-[7rem]">{user.name}</h1>
+        {user.bio ? <p className="mt-8 max-w-3xl text-xl font-medium leading-relaxed text-foreground md:text-2xl">{user.bio}</p> : null}
       </section>
 
       <div className="border-l border-border/40 pl-6 md:pl-10 ml-4 md:ml-8 mt-12 md:mt-16">
@@ -664,20 +655,20 @@ function MonolithTemplate({ user, projects, skills, links, email, resumeUrl }: S
 
 function AtelierTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   return (
-    <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-4 pb-16 pt-8 lg:space-y-16">
-      <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <div className="glass rounded-[2rem] border border-border/80 bg-surface/70 p-8 md:p-12 lg:p-16 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.25em] text-primary font-medium">Atelier Portfolio</p>
-          <h1 className="mt-5 font-heading text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">{user.name}</h1>
-          {user.bio ? <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted md:text-xl lg:text-2xl">{user.bio}</p> : null}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Badge variant="secondary" className="bg-foreground/5 hover:bg-foreground/10 px-4 py-1.5 text-sm font-medium">@{user.username}</Badge>
-            {user.location ? <Badge variant="secondary" className="bg-foreground/5 hover:bg-foreground/10 px-4 py-1.5 text-sm font-medium">{user.location}</Badge> : null}
+    <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-4 pb-20 pt-10 lg:space-y-20 [&_.glass]:rounded-[3rem] [&_.glass]:border-primary/10 [&_.glass]:bg-surface/50 [&_.glass]:shadow-[0_8px_30px_rgba(var(--primary),0.04)] [&_div.rounded-2xl]:rounded-[2rem] [&_div.rounded-3xl]:rounded-[2.5rem] [&_h1]:font-light [&_h1]:tracking-wide [&_h2]:font-medium [&_table]:rounded-[2rem] [&_a.rounded-full]:rounded-full [&_img]:rounded-full">
+      <section className="grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
+        <div className="glass flex flex-col justify-center border p-10 md:p-14 lg:p-20">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary/80">Atelier Studio</p>
+          <h1 className="mt-6 font-heading text-5xl leading-[1.1] md:text-7xl lg:text-[5.5rem]">{user.name}</h1>
+          {user.bio ? <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-2xl font-light">{user.bio}</p> : null}
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Badge variant="secondary" className="rounded-full bg-primary/5 px-6 py-2.5 text-sm font-medium text-primary hover:bg-primary/10">@{user.username}</Badge>
+            {user.location ? <Badge variant="secondary" className="rounded-full bg-primary/5 px-6 py-2.5 text-sm font-medium text-primary hover:bg-primary/10">{user.location}</Badge> : null}
           </div>
         </div>
 
-        <Card className="glass flex flex-col justify-center space-y-5 rounded-[2rem] border-border/80 bg-surface/40 p-8 md:p-10 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted font-semibold">Profile Links</p>
+        <Card className="glass flex flex-col items-center justify-center space-y-6 border p-10 text-center shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground">Links</p>
           {links.github ? (
             <Link href={links.github} target="_blank" className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground">
               <Github className="h-4 w-4 text-primary" />
