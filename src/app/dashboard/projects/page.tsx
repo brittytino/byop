@@ -1,5 +1,8 @@
+import { Plus, Save } from "lucide-react";
+
 import { RepoImporter } from "@/components/dashboard/repo-importer";
 import { ProjectDeleteForm } from "@/components/dashboard/project-delete-form";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -54,9 +57,10 @@ export default async function ProjectsPage() {
             <Label htmlFor="tech_stack">Tech stack (comma separated)</Label>
             <Input id="tech_stack" name="tech_stack" placeholder="Next.js, TypeScript, Neon" />
           </div>
-          <button className="h-11 rounded-2xl bg-primary font-medium text-primary-foreground shadow-glow transition hover:opacity-90">
+          <Button className="h-11 w-fit" type="submit">
+            <Plus className="mr-2 h-4 w-4" />
             Save Project
-          </button>
+          </Button>
         </form>
       </Card>
 
@@ -103,9 +107,15 @@ export default async function ProjectsPage() {
                   </div>
 
                   <div className="flex items-end gap-2">
-                    <button className="h-11 rounded-2xl bg-primary px-4 font-medium text-primary-foreground shadow-glow transition hover:opacity-90">
-                      Save
-                    </button>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      className="h-11 w-11 rounded-full p-0"
+                      title="Save project"
+                      aria-label="Save project"
+                    >
+                      <Save className="h-4 w-4" />
+                    </Button>
                     <ProjectDeleteForm projectId={project.id} />
                   </div>
                 </form>

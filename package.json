@@ -9,12 +9,14 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
+    "favicons:generate": "node scripts/generate-favicons.mjs",
     "db:setup": "node scripts/db-setup.mjs",
     "db:check": "node scripts/db-check.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@neondatabase/serverless": "^0.10.4",
+    "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "gsap": "^3.14.2",
@@ -37,9 +39,11 @@
     "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.15",
+    "png-to-ico": "^3.0.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   }

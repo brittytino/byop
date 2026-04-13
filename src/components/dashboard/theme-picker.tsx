@@ -72,6 +72,18 @@ const themes = [
       lightSurface: "#ffffff",
       accent: "#111111"
     }
+  },
+  {
+    id: "rose-luxe",
+    name: "Rose Luxe",
+    description: "Burgundy depth with rose-gold luxury accents",
+    preview: {
+      darkBackground: "#1a0c12",
+      darkSurface: "#2a121d",
+      lightBackground: "#fff5f8",
+      lightSurface: "#ffffff",
+      accent: "#d9779f"
+    }
   }
 ];
 

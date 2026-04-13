@@ -123,6 +123,30 @@
     --primary-foreground: 0 0% 100%;
   }
 
+  .theme-rose-luxe {
+    --background: 338 46% 8%;
+    --foreground: 330 30% 98%;
+    --surface: 338 46% 13%;
+    --muted: 330 18% 68%;
+    --border: 338 28% 24%;
+    --input: 338 34% 15%;
+    --ring: 332 56% 66%;
+    --primary: 332 56% 66%;
+    --primary-foreground: 338 46% 10%;
+  }
+  .light .theme-rose-luxe,
+  .light.theme-rose-luxe {
+    --background: 332 60% 98%;
+    --foreground: 336 30% 14%;
+    --surface: 330 36% 96%;
+    --muted: 336 16% 42%;
+    --border: 336 24% 84%;
+    --input: 330 100% 100%;
+    --ring: 332 46% 56%;
+    --primary: 332 46% 56%;
+    --primary-foreground: 0 0% 100%;
+  }
+
   * {
     @apply border-border;
   }
