@@ -19,7 +19,7 @@ export function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="glass sticky top-8 h-fit rounded-3xl border border-white/5 bg-surface/50 p-4 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+    <aside className="glass sticky top-8 h-fit rounded-3xl border border-border bg-surface/75 p-4 shadow-[0_8px_28px_rgba(2,6,23,0.10)] backdrop-blur-xl dark:shadow-[0_8px_30px_rgba(0,0,0,0.45)]">
       <p className="mb-4 px-4 text-xs font-bold uppercase tracking-wider text-muted">Workspace</p>
       <nav className="space-y-1">
         {links.map((link) => {
@@ -32,8 +32,8 @@ export function DashboardSidebar() {
               className={cn(
                 "group relative flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all",
                 isActive
-                  ? "bg-white/5 text-foreground shadow-sm"
-                  : "text-muted hover:bg-white/5 hover:text-foreground"
+                  ? "bg-primary/10 text-foreground shadow-sm"
+                  : "text-muted hover:bg-foreground/5 hover:text-foreground"
               )}
             >
               {isActive && (
