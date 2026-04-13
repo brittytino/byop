@@ -1,4 +1,5 @@
 import { updateProfileAction } from "@/app/actions";
+import { SkillsSelector } from "@/components/dashboard/skills-selector";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,13 +54,8 @@ export default async function ProfilePage() {
             <Input id="location" name="location" defaultValue={user.location ?? ""} />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="skills">Skills (comma separated)</Label>
-            <Input
-              id="skills"
-              name="skills"
-              defaultValue={(user.skills ?? []).join(", ")}
-              placeholder="TypeScript, Next.js, PostgreSQL"
-            />
+            <Label htmlFor="skills">Skills</Label>
+            <SkillsSelector id="skills" initialSkills={(user.skills as string[]) ?? []} />
           </div>
         </div>
 

@@ -486,11 +486,11 @@ function CinematicTemplate({ user, projects, skills, links, email, resumeUrl }: 
 
 function SwipeTemplate({ user, projects, skills, links, email, resumeUrl }: SharedTemplateProps) {
   const sections = [
-    { id: "projects", title: "Projects", content: <ProjectsGrid projects={projects} /> },
-    { id: "skills", title: "Skills", content: <SkillsSection skills={skills} /> },
-    { id: "about", title: "About", content: <AboutSection user={user} /> },
-    { id: "resume", title: "Resume", content: <ResumeSection resumeUrl={resumeUrl} /> },
-    { id: "contact", title: "Contact", content: <ContactSection links={links} email={email} name={user.name} username={user.username} /> }
+    { id: "projects", content: <ProjectsGrid projects={projects} /> },
+    { id: "skills", content: <SkillsSection skills={skills} /> },
+    { id: "about", content: <AboutSection user={user} /> },
+    { id: "resume", content: <ResumeSection resumeUrl={resumeUrl} /> },
+    { id: "contact", content: <ContactSection links={links} email={email} name={user.name} username={user.username} /> }
   ].filter((item) => item.content !== null);
 
   return (
@@ -503,19 +503,18 @@ function SwipeTemplate({ user, projects, skills, links, email, resumeUrl }: Shar
             {user.bio ? <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">{user.bio}</p> : null}
           </div>
           <span className="inline-flex rounded-full border border-border bg-foreground/5 px-3 py-1 text-xs text-muted">
-            Swipe on phone, clean grid on wide screens
+            Swipe on mobile, structured grid on desktop
           </span>
         </div>
       </section>
 
       <section className="mt-6">
-        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-2 xl:overflow-visible xl:pb-0 xl:pr-0">
+        <div className="flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto pb-3 pr-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden xl:grid xl:grid-cols-2 xl:overflow-visible xl:pb-0 xl:pr-0 2xl:grid-cols-3">
           {sections.map((section) => (
             <article
               key={section.id}
-              className="min-w-[min(90vw,30rem)] snap-start rounded-3xl border border-border bg-surface/70 p-5 shadow-[0_12px_30px_rgba(2,6,23,0.12)] sm:min-w-[min(74vw,34rem)] xl:min-w-0"
+              className="min-w-[min(90vw,30rem)] snap-start rounded-3xl border border-border bg-surface/70 p-5 shadow-[0_12px_30px_rgba(2,6,23,0.12)] ring-1 ring-border/40 sm:min-w-[min(74vw,34rem)] xl:min-w-0"
             >
-              <p className="mb-3 text-xs uppercase tracking-[0.18em] text-primary">{section.title}</p>
               {section.content}
             </article>
           ))}

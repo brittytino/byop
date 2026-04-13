@@ -78,8 +78,46 @@ const techIconMap: Record<string, IconType> = {
   vuejs: SiVuedotjs
 };
 
-function normalizeTech(tech: string) {
+export const TECH_STACK_SUGGESTIONS = [
+  "TypeScript",
+  "JavaScript",
+  "Python",
+  "Go",
+  "Kotlin",
+  "Swift",
+  "React",
+  "Next.js",
+  "Node.js",
+  "Express",
+  "NestJS",
+  "Vue.js",
+  "Svelte",
+  "Flutter",
+  "Django",
+  "GraphQL",
+  "HTML",
+  "CSS",
+  "Tailwind CSS",
+  "Figma",
+  "Git",
+  "GitHub",
+  "Docker",
+  "PostgreSQL",
+  "MySQL",
+  "MongoDB",
+  "Redis",
+  "Firebase",
+  "Supabase",
+  "Vercel",
+  "Android"
+] as const;
+
+export function normalizeTech(tech: string) {
   return tech.toLowerCase().replace(/[.+#\s_-]/g, "");
+}
+
+export function getTechIcon(tech: string) {
+  return techIconMap[normalizeTech(tech)] ?? null;
 }
 
 type TechPillProps = {
@@ -89,8 +127,7 @@ type TechPillProps = {
 };
 
 export function TechPill({ tech, variant = "secondary", className }: TechPillProps) {
-  const key = normalizeTech(tech);
-  const Icon = techIconMap[key];
+  const Icon = getTechIcon(tech);
 
   return (
     <Badge variant={variant} className={className}>

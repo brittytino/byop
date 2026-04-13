@@ -98,7 +98,7 @@ export function ThemePicker({ activeTheme }: ThemePickerProps) {
   const [pending, startTransition] = useTransition();
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       {themes.map((theme) => {
         const selected = theme.id === activeTheme;
         const isSaving = pending && activeThemeId === theme.id;
@@ -106,15 +106,17 @@ export function ThemePicker({ activeTheme }: ThemePickerProps) {
         return (
           <Card
             key={theme.id}
-            className={selected ? "border-primary shadow-glow" : "border-border"}
+            className={selected ? "flex h-full flex-col border-primary shadow-glow" : "flex h-full flex-col border-border"}
           >
-            <p className="text-lg font-semibold">{theme.name}</p>
-            <p className="mt-1 text-sm text-muted">{theme.description}</p>
-            <p className="mt-1 text-xs uppercase tracking-[0.16em] text-primary/80">
-              Template: {theme.template}
-            </p>
+            <div className="space-y-2">
+              <p className="text-lg font-semibold leading-tight">{theme.name}</p>
+              <p className="text-sm leading-relaxed text-muted">{theme.description}</p>
+              <p className="inline-flex rounded-full border border-border bg-foreground/5 px-2.5 py-1 text-[11px] uppercase tracking-[0.16em] text-primary/90">
+                {theme.template}
+              </p>
+            </div>
 
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <div
                 className="rounded-xl border border-border p-3"
                 style={{ backgroundColor: theme.preview.darkBackground }}
@@ -127,11 +129,12 @@ export function ThemePicker({ activeTheme }: ThemePickerProps) {
                     borderColor: "rgba(255,255,255,0.12)"
                   }}
                 >
-                  <div
-                    className="h-2 w-20 rounded-full"
-                    style={{ backgroundColor: theme.preview.accent }}
-                  />
+                  <div className="h-2 w-20 rounded-full" style={{ backgroundColor: theme.preview.accent }} />
                   <div className="mt-2 h-2 w-14 rounded-full bg-white/25" />
+                  <div className="mt-3 rounded-md border border-white/10 bg-white/5 p-2">
+                    <div className="h-1.5 w-24 rounded-full bg-white/40" />
+                    <div className="mt-1.5 h-1.5 w-16 rounded-full bg-white/25" />
+                  </div>
                 </div>
               </div>
 
@@ -147,17 +150,18 @@ export function ThemePicker({ activeTheme }: ThemePickerProps) {
                     borderColor: "rgba(0,0,0,0.08)"
                   }}
                 >
-                  <div
-                    className="h-2 w-20 rounded-full"
-                    style={{ backgroundColor: theme.preview.accent }}
-                  />
+                  <div className="h-2 w-20 rounded-full" style={{ backgroundColor: theme.preview.accent }} />
                   <div className="mt-2 h-2 w-14 rounded-full bg-black/15" />
+                  <div className="mt-3 rounded-md border border-black/10 bg-black/[0.03] p-2">
+                    <div className="h-1.5 w-24 rounded-full bg-black/25" />
+                    <div className="mt-1.5 h-1.5 w-16 rounded-full bg-black/15" />
+                  </div>
                 </div>
               </div>
             </div>
 
             <Button
-              className="mt-4"
+              className="mt-5 w-full"
               variant={selected ? "secondary" : "default"}
               disabled={pending || selected}
               onClick={() => {

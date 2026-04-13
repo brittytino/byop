@@ -16,9 +16,10 @@ export default async function ThemesPage() {
   return (
     <div className="space-y-6">
       <Card>
-        <h2 className="text-xl font-semibold">Themes</h2>
-        <p className="mt-1 text-sm text-muted">
-          Choose a visual style for your public portfolio.
+        <h2 className="text-xl font-semibold">Themes & Templates</h2>
+        <p className="mt-1 text-sm text-muted">Choose a theme and template style for your public portfolio.</p>
+        <p className="mt-3 text-xs text-muted">
+          Each option includes dark and light previews so you can pick the cleanest professional look.
         </p>
       </Card>
       <ThemePicker activeTheme={portfolio?.theme ?? "midnight-inferno"} />
