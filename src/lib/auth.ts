@@ -3,15 +3,20 @@ import GitHubProvider from "next-auth/providers/github";
 
 import { sql } from "@/lib/db";
 
-if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET) {
-  throw new Error("GitHub OAuth credentials are missing");
+const githubClientId = process.env.GITHUB_ID;
+const githubClientSecret = process.env.GITHUB_SECRET;
+
+if (!githubClientId || !githubClientSecret) {
+  console.warn(
+    "[auth] GitHub OAuth credentials are missing. Configure GITHUB_ID and GITHUB_SECRET in Vercel project environment variables."
+  );
 }
 
 export const authOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: githubClientId ?? "missing-github-client-id",
+      clientSecret: githubClientSecret ?? "missing-github-client-secret",
       authorization: {
         params: {
           scope: "read:user user:email repo"

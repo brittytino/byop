@@ -18,7 +18,3 @@ export const projectSchema = z.object({
   live_url: z.string().url().optional().or(z.literal("")),
   tech_stack: z.array(z.string().min(1).max(30)).max(20)
 });
-
-export const publishSchema = z.object({
-  publish: z.boolean()
-});

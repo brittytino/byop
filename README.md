@@ -196,7 +196,24 @@ npm run dev
 
 1. Push repository to GitHub.
 2. Import project into Vercel.
-3. Set environment variables in Vercel project settings.
+3. Set environment variables in Vercel project settings for all scopes:
+	- Development
+	- Preview
+	- Production
+
+Required variables:
+
+- NEXTAUTH_URL
+- NEXTAUTH_SECRET
+- GITHUB_ID
+- GITHUB_SECRET
+- DATABASE_URL
+
+Important:
+
+- Missing GITHUB_ID or GITHUB_SECRET breaks GitHub sign-in at runtime.
+- Keep callback URL in GitHub OAuth app exactly aligned with your Vercel domain.
+
 4. Ensure GitHub OAuth production callback URL:
 	- https://your-domain/api/auth/callback/github
 5. Run migrations on Neon production database.

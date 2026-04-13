@@ -11,7 +11,7 @@ import {
   getUserByGithubId,
   getUserByUsername
 } from "@/lib/repositories";
-import { profileSchema, projectSchema, publishSchema } from "@/lib/validation";
+import { profileSchema, projectSchema } from "@/lib/validation";
 import { z } from "zod";
 
 type ActionResult = {
@@ -203,20 +203,6 @@ export async function importGitHubRepoAction(repoId: number): Promise<ActionResu
   revalidatePortfolio(user.username);
 
   return { ok: true, message: `${repo.name} imported successfully` };
-}
-
-export async function setPublishStateAction(formData: FormData): Promise<ActionResult> {
-  const parsed = publishSchema.safeParse({
-    publish: formData.get("publish") === "true"
-  });
-
-  if (!parsed.success) {
-    return { ok: false, message: "Invalid publish state" };
-  }
-
-  return parsed.data.publish
-    ? publishPortfolioAction()
-    : unpublishPortfolioAction();
 }
 
 export async function publishPortfolioAction(): Promise<ActionResult> {
