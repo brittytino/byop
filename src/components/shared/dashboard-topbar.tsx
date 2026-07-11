@@ -82,7 +82,7 @@ export function DashboardTopbar({
 
       {confirmLogoutOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 animate-in fade-in duration-200">
-          <div className="glass w-full max-w-md rounded-2xl border border-border p-6 shadow-glow animate-in zoom-in-95 duration-200">
+          <div className="bg-background/95 backdrop-blur-xl w-full max-w-md rounded-2xl border border-border p-6 shadow-lg animate-in zoom-in-95 duration-200">
             <h3 className="text-lg font-semibold">Sign out of BYOP?</h3>
             <p className="mt-2 text-sm text-muted">
               You can sign in again anytime with your GitHub account.
