@@ -35,13 +35,22 @@ export const metadata: Metadata = {
     title: "BYOP - Build Your Own Portfolio",
     description:
       "Generate a free developer portfolio from GitHub and publish it instantly.",
-    siteName: "BYOP"
+    siteName: "BYOP",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "BYOP - Build Your Own Portfolio"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "BYOP - Build Your Own Portfolio",
     description:
-      "Generate a free developer portfolio from GitHub and publish it instantly."
+      "Generate a free developer portfolio from GitHub and publish it instantly.",
+    images: ["/og-image.png"]
   },
   icons: {
     icon: [
