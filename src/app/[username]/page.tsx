@@ -80,11 +80,10 @@ function PortfolioContent({
   );
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: { username: string };
+export async function generateMetadata(props: {
+  params: Promise<{ username: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
   const normalized = params.username.toLowerCase();
   const data = await getCachedPublishedPortfolio(normalized);
 
@@ -157,13 +156,12 @@ export async function generateMetadata({
   };
 }
 
-export default async function PublicPortfolioPage({
-  params,
-  searchParams
-}: {
-  params: { username: string };
-  searchParams?: { preview?: string };
+export default async function PublicPortfolioPage(props: {
+  params: Promise<{ username: string }>;
+  searchParams?: Promise<{ preview?: string }>;
 }) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const username = params.username.toLowerCase();
   const previewRequested = searchParams?.preview === "true";
   const session = await auth();

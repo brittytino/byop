@@ -38,7 +38,7 @@ async function requireAuthedUser() {
 
 function revalidatePortfolio(username: string) {
   revalidatePath(`/${username}`);
-  revalidateTag(`portfolio:${username.toLowerCase()}`);
+  (revalidateTag as any)(`portfolio:${username.toLowerCase()}`);
 }
 
 export async function updateProfileAction(formData: FormData): Promise<ActionResult> {

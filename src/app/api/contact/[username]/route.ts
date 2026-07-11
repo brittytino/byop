@@ -60,7 +60,7 @@ function getTransport() {
 
 export async function POST(
   request: Request,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   try {
     const payload = await request.json();
@@ -70,7 +70,8 @@ export async function POST(
       return NextResponse.json({ ok: false, message: "Invalid form data" }, { status: 400 });
     }
 
-    const user = await getUserByUsername(params.username.toLowerCase());
+    const { username } = await params;
+    const user = await getUserByUsername(username.toLowerCase());
     if (!user || !user.email) {
       return NextResponse.json(
         { ok: false, message: "Recipient email is not configured." },

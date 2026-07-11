@@ -4,9 +4,10 @@ import { sql } from "@/lib/db";
 
 export async function POST(
   _: Request,
-  { params }: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
-  const username = params.username?.toLowerCase();
+  const { username: rawUsername } = await params;
+  const username = rawUsername?.toLowerCase();
 
   if (!username) {
     return NextResponse.json({ error: "Missing username" }, { status: 400 });
